@@ -1,0 +1,82 @@
+MODEL 1: Work-family conflict ~ WFH freq * Access * Gender + (1|country)
+Sample: parents only, n = 12304 
+
+Linear mixed model fit by REML ['lmerMod']
+Formula: wfc ~ wfh_freq_c * access * gender + (1 | country)
+   Data: parents
+
+REML criterion at convergence: 27907.1
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.7658 -0.6906  0.0068  0.6374  3.8517 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ country  (Intercept) 0.05306  0.2303  
+ Residual             0.55808  0.7471  
+Number of obs: 12304, groups:  country, 35
+
+Fixed effects:
+                                   Estimate Std. Error t value
+(Intercept)                         2.37803    0.04143  57.404
+wfh_freq_c                          0.08090    0.01370   5.904
+accessHigh                          0.12121    0.02638   4.595
+genderFemale                        0.06336    0.01891   3.352
+wfh_freq_c:accessHigh              -0.05846    0.01772  -3.299
+wfh_freq_c:genderFemale             0.03953    0.01758   2.249
+accessHigh:genderFemale            -0.03982    0.03784  -1.052
+wfh_freq_c:accessHigh:genderFemale -0.03255    0.02366  -1.376
+
+Correlation of Fixed Effects:
+            (Intr) wfh_f_ accssH gndrFm wf__:H wf__:F accH:F
+wfh_freq_c  -0.132                                          
+accessHigh  -0.182  0.206                                   
+genderFemal -0.248  0.283  0.386                            
+wfh_frq_c:H  0.099 -0.763 -0.542 -0.220                     
+wfh_frq_c:F  0.102 -0.771 -0.158 -0.406  0.594              
+accssHgh:gF  0.122 -0.140 -0.679 -0.497  0.381  0.204       
+wfh_fr_:H:F -0.074  0.569  0.404  0.302 -0.746 -0.742 -0.579
+
+
+=====================================================
+
+MODEL 2: WHO-5 wellbeing ~ WFH freq * Access * Gender + (1|country)
+Sample: parents only, n = 12581 
+
+Linear mixed model fit by REML ['lmerMod']
+Formula: wellbeing ~ wfh_freq_c * access * gender + (1 | country)
+   Data: parents
+
+REML criterion at convergence: 109602.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.9915 -0.5814  0.1451  0.6751  2.1423 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ country  (Intercept)  13.86    3.723  
+ Residual             353.19   18.793  
+Number of obs: 12581, groups:  country, 35
+
+Fixed effects:
+                                   Estimate Std. Error t value
+(Intercept)                         69.8923     0.7199  97.087
+wfh_freq_c                           0.8821     0.3407   2.589
+accessHigh                           1.0371     0.6515   1.592
+genderFemale                        -2.0269     0.4691  -4.320
+wfh_freq_c:accessHigh               -0.8358     0.4403  -1.898
+wfh_freq_c:genderFemale             -1.1278     0.4389  -2.569
+accessHigh:genderFemale             -0.8816     0.9391  -0.939
+wfh_freq_c:accessHigh:genderFemale   1.2067     0.5891   2.048
+
+Correlation of Fixed Effects:
+            (Intr) wfh_f_ accssH gndrFm wf__:H wf__:F accH:F
+wfh_freq_c  -0.187                                          
+accessHigh  -0.259  0.205                                   
+genderFemal -0.352  0.281  0.386                            
+wfh_frq_c:H  0.140 -0.764 -0.540 -0.219                     
+wfh_frq_c:F  0.144 -0.769 -0.157 -0.404  0.593              
+accssHgh:gF  0.172 -0.139 -0.677 -0.497  0.377  0.203       
+wfh_fr_:H:F -0.105  0.568  0.401  0.302 -0.744 -0.744 -0.576

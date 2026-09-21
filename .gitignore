@@ -1,0 +1,24 @@
+# Raw data — UKDS end-user licence does not permit redistribution
+Data/Raw/
+
+# Private/internal notes — not for public sharing
+Notes/00_literature_primer.md
+Notes/00_variable_map.md
+
+# R / RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# macOS
+.DS_Store
+
+# Temporary files 
+*.tmp 
+*.log
+*.html
+
+# literature pdfs
+Literature/
+

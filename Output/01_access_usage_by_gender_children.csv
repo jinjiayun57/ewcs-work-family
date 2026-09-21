@@ -1,0 +1,25 @@
+"gender","has_children","pct","n","measure"
+"Male",FALSE,40.0687582406753,12071,"Access: schedule control
+(wt_arrangements)"
+"Male",TRUE,43.6178590575294,6098,"Access: schedule control
+(wt_arrangements)"
+"Female",FALSE,35.5757053645519,11878,"Access: schedule control
+(wt_arrangements)"
+"Female",TRUE,34.7586082049335,6556,"Access: schedule control
+(wt_arrangements)"
+"Male",FALSE,71.2131046568854,12071,"Access: ease of time off
+(able_hour_off)"
+"Male",TRUE,69.8627180097676,6098,"Access: ease of time off
+(able_hour_off)"
+"Female",FALSE,65.2254597353301,11878,"Access: ease of time off
+(able_hour_off)"
+"Female",TRUE,65.140272226985,6556,"Access: ease of time off
+(able_hour_off)"
+"Male",FALSE,23.8338340128491,12071,"Usage: works from home
+(loc_home)"
+"Male",TRUE,27.8136777690509,6098,"Usage: works from home
+(loc_home)"
+"Female",FALSE,25.2835585923351,11878,"Usage: works from home
+(loc_home)"
+"Female",TRUE,29.6843707312984,6556,"Usage: works from home
+(loc_home)"
