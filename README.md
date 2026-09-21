@@ -119,6 +119,7 @@ They do not resolve selection into working from home or establish causal effects
 
 The public repository contains:
 
+```text
 WorkFamily/
 ├── README.md
 ├── WorkFamily.Rproj
@@ -131,7 +132,7 @@ WorkFamily/
 │   ├── 02_wfc_results.md
 │   └── 03_multilevel_results.md
 └── Output/
-
+```
 
 ## Software
 
