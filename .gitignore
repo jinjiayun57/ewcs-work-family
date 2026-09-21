@@ -1,5 +1,6 @@
 # Raw data — UKDS end-user licence does not permit redistribution
 Data/Raw/
+Output/*.csv
 
 # Private/internal notes — not for public sharing
 Notes/00_literature_primer.md
