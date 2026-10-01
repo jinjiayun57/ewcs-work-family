@@ -23,6 +23,9 @@ The analyses use the 2024 European Working Conditions Survey (EWCS), UK Data Ser
 - Coverage: 35 European countries
 - Mode: face-to-face survey
 
+All analyses are restricted to employees (`employee_selfdeclared == 1`, n = 30,570). 
+Self-employed respondents are excluded because employer-provided flexibility does not apply to them.
+
 The raw dataset is stored locally in:
 
 `Data/Raw/`
@@ -56,7 +59,7 @@ This analysis compares men and women on:
 It also examines whether these patterns differ by the presence of children in the household.
 
 The descriptive results suggest that women report less schedule control and less ease in taking short-notice time off, 
-while reporting somewhat more use of working from home.
+while reporting slightly more use of working from home. The gender gap in schedule control is concentrated among parents.
 
 The different indicators therefore do not show the same gender pattern and are examined separately rather than treated as interchangeable measures of workplace flexibility.
 
@@ -78,8 +81,8 @@ This analysis constructs a four-item work-family conflict measure and compares r
 
 The analysis is descriptive and uses weighted group means with approximate confidence intervals.
 
-Women with low schedule control show a descriptive pattern of increasing work-family conflict as working-from-home frequency rises. 
-The other gender-by-schedule-control groups show flatter or less monotonic patterns.
+In all four gender-by-schedule-control groups, employees who work from home at least rarely report more work-family conflict than those who never do. 
+Only among women with low schedule control does conflict keep rising from "rarely/sometimes" to "often/always" working from home.
 
 No interaction model is estimated in this step.
 
@@ -93,7 +96,7 @@ Notes:
 
 `Notes/03_multilevel_results.md`
 
-This analysis examines the pattern from Analysis 02 more formally among parents.
+This analysis examines the pattern from Analysis 02 more formally among employed parents.
 
 The main specification includes:
 
@@ -106,11 +109,12 @@ Two outcomes are examined:
 - work-family conflict
 - WHO-5 wellbeing
 
-The three-way interaction is not statistically significant for work-family conflict.
+For work-family conflict, more frequent working from home is associated with higher conflict in all four groups. 
+The association is strongest for women with low schedule control, whose slope is steeper than that of men with low schedule control 
+and of women with some schedule control. The formal three-way interaction is not statistically significant.
 
-For wellbeing, the three-way interaction is statistically significant. 
-Predicted wellbeing rises with WFH frequency for men and declines slightly for women in the low-schedule-control group, 
-while the corresponding slopes are close to flat among respondents with some schedule control.
+For wellbeing, the three-way interaction is statistically significant, but none of the four WFH slopes differs significantly from zero. 
+The interaction mainly reflects small, opposite-signed slopes among men, so there is no clear association between WFH frequency and wellbeing in any group.
 
 These results are treated as exploratory associations. 
 They do not resolve selection into working from home or establish causal effects.
@@ -149,16 +153,8 @@ Main packages:
 - `lme4`
 - `ggeffects`
 
-
-
 ## Current limitations
 
-
-- The flexibility measures are based on employee reports rather than formal organisational records.
-- The EWCS contains no employer, HR, team, or organisation-level respondent.
-- There are no organisation or team identifiers.
 - Use of working from home is selective and may be related to family demands and work-family conflict.
-- The multilevel models do not establish causal effects.
 - The multilevel models are currently unweighted.
 - The model specifications have not been subjected to extensive robustness checks.
-- The three scripts currently depend on being run sequentially in the same R session.

@@ -2,99 +2,114 @@
 
 **Data:** European Working Conditions Survey 2024, UKDS study 9511 (`ewcs24_dataset_ukda_v2.sav`).
 
-n = 36,644, fieldwork 2024, 35 countries (EU27 + EFTA + Western Balkans), face-to-face fieldwork.
+n = 36,644 respondents, fieldwork 2024, 35 countries (EU27 + EFTA + Western Balkans), face-to-face fieldwork.
 
-EWCS does not directly observe formal organisational provision of flexible working arrangements. 
-The relevant measures used here are based on employees' own reports, so they capture perceived access or control rather 
-than an independently observed organisational offer.
+**Analytic sample:** employees only (`employee_selfdeclared == 1`), n = 30,570. 
+Self-employed respondents are excluded because employer-provided flexibility does not apply to them.
 
 ## Variables used
 
-| Construct | Variable | Question | Coding used |
-|---|---|---|---|
-| Schedule control | `wt_arrangements` | "How are your working time arrangements set?" | 1=employer-fixed, no change possible · 2=choose among fixed schedules · 3=adapt within limits (flexitime) · 4=fully self-determined. "Has some control" = 3 or 4 |
-| Ease of short-notice time off | `able_hour_off` | "How easy/difficult to arrange an hour or two off for personal/family matters?" | 1=very easy … 4=very difficult. "Easy" = 1 or 2 |
-| Work-from-home use | `loc_home` | "How often have you worked from home in your main job?" | 1=always … 5=never. "Uses it at least sometimes" = 1, 2, or 3 |
-| Gender | `sex2` | Binary sex categorisation | Male / Female (41 missing, non-binary not separately coded in this variable) |
-| Children in household | `hh_nochilds` | Binary flag, household has no children under 15 | inverted to `has_children` |
-| Weight | `calweight` | Final calibrated analysis weight | used throughout |
+| Construct | Variable | Question | Categories | Coding used |
+|---|---|---|---|---|
+| Schedule control | `wt_arrangements` (q44) | "How are your working time arrangements set?" | 1 = set by the organisation, no possibility for change · 2 = choose between several fixed schedules set by the organisation · 3 = adapt hours within certain limits (e.g. flexitime) · 4 = entirely determined by yourself | "Some control" = 3 or 4 vs. 1 or 2 |
+| Perceived accessibility (ad hoc time off) | `able_hour_off` (q52) | "How easy or difficult is it for you to arrange to take an hour or two off during working hours to attend to personal or family matters?" | 1 = very easy · 2 = fairly easy · 3 = fairly difficult · 4 = very difficult | "Easy" = 1 or 2 |
+| WFH usage (place flexibility) | `loc_home` (q29_d) | "How often have you worked in your own home in your main job?" | 1 = always · 2 = often · 3 = sometimes · 4 = rarely · 5 = never | "Uses WFH" = 1, 2 or 3 |
+| Gender | `sex2` | Binary sex categorisation | Male / Female | 35 missing among employees; non-binary not separately coded in this variable |
+| Children in household | `hh_nochilds` | Binary flag, household has no children under 15 | | inverted to `has_children` |
+| Weight | `calweight` | Final calibrated analysis weight | | used throughout |
+
+## Measurement notes
+
+The three flexibility measures map only partly onto the access / usage distinction.
+
+- **`wt_arrangements` measures schedule control rather than access.** 
+It describes the working-time arrangement the respondent is actually in, so having the arrangement and using it cannot be separated. 
+Category 2 (choosing between several fixed schedules set by the organisation) is grouped with category 1 as low schedule control.
+
+- **`able_hour_off` is the closest item to perceived accessibility**, i.e. whether flexibility can be used in practice. 
+It refers to occasional time off rather than a specific policy, and it also reflects workload and staffing, not only what the employer allows.
+
+- **`loc_home` measures usage, but of place flexibility rather than time flexibility.** 
+The other two items are about working time, so access and usage here do not refer to the same arrangement. 
+EWCS 2024 has no item asking whether working from home is permitted, so access to WFH cannot be measured. 
+"Never" (about 70% of employees) largely reflects jobs that cannot be done from home rather than a choice not to use an available option. 
+The item may also capture unpaid work taken home, which is not a family-friendly arrangement.
+
+### Why binary coding
+
+Binary coding is used here because the purpose of this step is descriptive: it gives simple weighted percentages by gender and presence of children. 
+It does lose information. The cut point for `wt_arrangements` is a substantive choice (see category 2 above), 
+`able_hour_off` combines "fairly easy" with "very easy", and the `loc_home` cut differs from script 2, where "sometimes" is grouped with "rarely". 
+A next step would be to check whether the results hold under other cut points.
+
+### Missing values
+
+Respondents who answered "don't know" or refused are counted in the "no" category of each indicator 
+(81 employees on `wt_arrangements`, 512 on `able_hour_off`, 71 on `loc_home`). 
+These are small shares of the sample and are not excluded in the current analysis; 
+excluding them would be the cleaner choice in future analyses.
 
 ## Results
 
-Design-weighted percentages using `calweight`.
+Design-weighted percentages using `calweight`, employees only.
 
 | | Female, no children | Female, with children | Male, no children | Male, with children |
 |---|---:|---:|---:|---:|
-| **Schedule control** | 35.6% | 34.8% | 40.1% | 43.6% |
-| **Ease of time off** | 65.2% | 65.1% | 71.2% | 69.9% |
-| **Works from home** | 25.3% | 29.7% | 23.8% | 27.8% |
+| **Schedule control** | 28.3% | 28.6% | 29.7% | 33.2% |
+| **Ease of taking time off** | 63.2% | 64.1% | 69.3% | 68.6% |
+| **Works from home** | 22.2% | 26.6% | 20.3% | 25.5% |
 
-n: female/no children 11,878; female/with children 6,556; male/no children 12,071; male/with children 6,098. 
-Forty-one respondents with missing gender are excluded.
+n: female/no children 10,197; female/with children 5,793; male/no children 9,584; male/with children 4,961. 
+Thirty-five employees with missing gender are excluded.
 
-![Workplace flexibility by gender and presence of children](../Output/01_access_usage_by_gender_children.png)
+![Schedule control, ease of taking time off and working from home, by gender and presence of children](../Output/01_flexibility_by_gender_children.png)
 
 ## Interpretation
 
 ### Schedule control and ease of taking time off
 
-Men report more schedule control than women in both household groups. 
-The difference is about 5 percentage points among respondents without children and about 9 percentage points among those with children.
+Men report more schedule control than women in both household groups, but the gap is mainly among parents: 
+about 1.5 percentage points among employees without children and about 4.5 percentage points among those with children.
 
-Men are also more likely than women to report that taking one or two hours off at short notice for personal or family matters is easy. 
-The gender difference is around 5 to 6 percentage points in both household groups.
+Men are also more likely than women to report that taking an hour or two off for personal or family matters is easy. 
+The gender difference is about 6 percentage points among employees without children and about 4.5 percentage points among those with children.
 
-The presence of children does not substantially change either pattern for women. 
-Among men, those with children report somewhat more schedule control than those without children, 
-while ease of taking short-notice time off is slightly lower.
+For women, the presence of children makes little difference to either measure. 
+Among men, fathers report more schedule control than men without children (33.2% vs. 29.7%), while ease of taking time off is about the same.
 
 These are descriptive differences in employees' reported working conditions. 
 The EWCS does not identify the organisational processes that generate them.
 
-### Work-from-home use
+### Working from home
 
-The gender pattern is different for working from home.
+The gender pattern is different for working from home. Women report slightly higher use than men in both household groups:
 
-Women report slightly higher work-from-home use than men in both household groups:
+- no children: 22.2% among women and 20.3% among men
+- with children: 26.6% among women and 25.5% among men
 
-- no children: 25.3% among women and 23.8% among men
-- with children: 29.7% among women and 27.8% among men
+These gender differences are small (1 to 2 percentage points). 
+Having children is associated with more working from home for both women and men, by about 4.5 to 5 percentage points.
 
-Having children is associated with greater work-from-home use for both women and men, by roughly 4 percentage points.
+So the three indicators do not move in the same direction by gender. 
+Women report less schedule control and less ease in taking time off, but slightly more working from home.
 
-The important descriptive point is that the three flexibility indicators do not move in the same direction by gender. 
-Women report less schedule control and less ease in taking short-notice time off, but somewhat more use of working from home.
-
-This does not show that women have lower access to working from home specifically and then use that access more intensively. 
-The EWCS variables used here measure different aspects of workplace flexibility, and there is no direct measure in this analysis of formal organisational access to working from home.
-
-One possible interpretation is that different forms of flexibility operate differently across gender and family circumstances. 
-For example, schedule autonomy and working from home may reflect different organisational practices or different employee needs. 
-The present descriptive analysis cannot distinguish among these explanations.
+This does not show that women have less access to working from home and then use it more intensively. 
+The indicators measure different aspects of flexibility, and the EWCS has no measure of whether working from home is permitted. 
+Schedule control and working from home may reflect different organisational practices or different employee needs; 
+this descriptive analysis cannot distinguish between these explanations.
 
 ## Presence of children
 
-Respondents with children report more work-from-home use than respondents without children for both genders.
+Working from home is the indicator most clearly associated with the presence of children, for both women and men. 
+The two time-flexibility measures differ little by household type, except that fathers report more schedule control than men without children.
 
-The same pattern is not visible for the two other flexibility indicators. Women with children report almost the same level of schedule control and ease of taking time off as women without children. 
-Men with children report somewhat more schedule control than men without children, while their reported ease of taking time off is slightly lower.
+Because `hh_nochilds` only indicates whether children under 15 live in the household, it should not be read as a direct measure of caregiving responsibility.
 
-Because `hh_nochilds` only indicates whether children under 15 are present in the household, it should not be interpreted as a direct measure of caregiving responsibility.
+## Summary
 
-## Take-aways
-
-- **Different dimensions of workplace flexibility show different gender patterns.** 
-Women report lower schedule control and less ease in taking short-notice time off, but somewhat higher use of working from home.
-
-- **Access-like measures and actual use should not be treated as interchangeable.** 
-In this analysis, schedule control, ease of taking time off, and working-from-home use capture related but distinct aspects of workplace flexibility.
-
-- **The presence of children is more clearly associated with work-from-home use than with the two access-related measures.** 
-Work-from-home use is higher among respondents with children for both women and men.
-
-- **EWCS measures the employee perspective.** 
-It cannot directly distinguish formal organisational provision from employees' perceived access because it has no employer or HR informant.
-
-- **A multi-actor, multilevel dataset could extend this analysis.** 
-Combining employee reports with information from managers or organisations would make it possible to examine whether differences between formal provision, perceived access, 
-and actual use are substantively meaningful.
+- Women report lower schedule control and less ease in taking time off than men, but slightly more working from home. 
+The schedule-control gap is mostly among parents.
+- Having children goes together with more working from home for both women and men, but makes little difference to the two time-flexibility measures.
+- The EWCS only has the employee's perspective. Without an employer or HR respondent, formal provision and perceived access cannot be told apart.
+- Data that combine employee reports with information from managers or organisations would make it possible to compare formal provision, 
+perceived access and actual use directly.

@@ -11,20 +11,21 @@ The models account for clustering of respondents within countries through a rand
 
 ## Sample
 
-The analysis includes 12,587 parents with complete data on schedule control, working-from-home frequency, gender, and country:
+The analysis is restricted to employees (`employee_selfdeclared == 1`) with children under 15 in the household. 
+It includes 10,701 employed parents with complete data on schedule control, working-from-home frequency, gender, and country:
 
-- 6,064 men
-- 6,523 women
+- 4,935 men
+- 5,766 women
 - 35 countries
 
 Of these respondents:
 
-- 12,304 have complete data on the work-family conflict composite
-- 12,581 have complete WHO-5 wellbeing data
+- 10,490 have complete data on the work-family conflict composite
+- 10,696 have WHO-5 wellbeing data
 
 ## Model
 
-The same basic specification is estimated for both outcomes:
+The same specification is estimated for both outcomes:
 
 `outcome ~ wfh_freq_c * schedule_control * gender + (1 | country)`
 
@@ -36,9 +37,14 @@ where:
 - the reference group is men with low schedule control
 - country is included as a random intercept
 
-Schedule control is based on `wt_arrangements` (q44). Low schedule control refers to respondents whose working time is fixed by the employer. The comparison category includes respondents reporting at least some ability to choose or adapt their working time.
+Schedule control is based on `wt_arrangements` (q44). Low schedule control covers employees whose working time is set by the organisation, 
+or chosen from several fixed schedules set by the organisation. Some schedule control covers employees who can adapt their working hours within certain limits 
+(e.g. flexitime) or whose hours are entirely self-determined.
 
-The models are unweighted.
+The models are unweighted. p-values use a normal approximation to the t statistic, as `lme4` does not report degrees of freedom.
+
+To interpret the interactions, the script also reports the simple slope of WFH frequency in each gender-by-schedule-control group, 
+and contrasts between these slopes.
 
 These estimates describe associations rather than causal effects. Working-from-home frequency may itself be related to family demands, occupation, seniority, job characteristics, or existing work-family difficulties. These sources of selection are not addressed by the present specification.
 
@@ -48,35 +54,35 @@ Work-family conflict ranges from 1 (low conflict) to 5 (high conflict).
 
 | Term | Estimate | t | approx. p |
 |---|---:|---:|---:|
-| WFH frequency, men with low schedule control | +0.081 | 5.90 | <.001 |
-| Some schedule control, men who never WFH | +0.121 | 4.60 | <.001 |
-| Female, low schedule control and never WFH | +0.063 | 3.35 | <.001 |
-| WFH × schedule control | -0.058 | -3.30 | .001 |
-| WFH × Female | +0.040 | 2.25 | .025 |
-| Schedule control × Female | -0.040 | -1.05 | .29 |
-| **WFH × schedule control × Female** | **-0.033** | **-1.38** | **.17** |
+| WFH frequency, men with low schedule control | +0.073 | 4.97 | <.001 |
+| Some schedule control, men who never WFH | -0.052 | -1.54 | .12 |
+| Female, low schedule control and never WFH | +0.070 | 3.72 | <.001 |
+| WFH × schedule control | -0.015 | -0.73 | .47 |
+| WFH × Female | +0.043 | 2.31 | .021 |
+| Schedule control × Female | +0.028 | 0.61 | .54 |
+| **WFH × schedule control × Female** | **-0.035** | **-1.24** | **.21** |
 
-For men with low schedule control, more frequent working from home is associated with higher work-family conflict. 
-The estimated slope is +0.081 for each one-category increase in WFH frequency.
+Simple slopes of WFH frequency (change in conflict per one-category increase in WFH frequency):
 
-The negative WFH × schedule-control interaction indicates that this slope is flatter among men who report some schedule control. 
-For men with some schedule control, the estimated WFH slope is approximately:
+| Group | Slope | SE | approx. p |
+|---|---:|---:|---:|
+| Men, low schedule control | +0.073 | 0.015 | <.001 |
+| Men, some schedule control | +0.057 | 0.015 | <.001 |
+| Women, low schedule control | +0.115 | 0.011 | <.001 |
+| Women, some schedule control | +0.065 | 0.014 | <.001 |
 
-`0.081 - 0.058 = 0.023`
+More frequent working from home is associated with higher work-family conflict in all four groups.
 
-The positive WFH × Female interaction indicates that, among respondents with low schedule control, 
-the WFH-conflict slope is steeper for women than for men. For women with low schedule control, the estimated slope is approximately:
+The slope is steepest for women with low schedule control (+0.115). 
+It is steeper than for men with low schedule control (difference +0.043, p = .021) and steeper than for women with some schedule control (difference +0.050, p = .006). 
+Among men, the slope hardly differs by schedule control (difference +0.015, p = .47), 
+and among employees with some schedule control, it hardly differs by gender (difference +0.008, p = .71).
 
-`0.081 + 0.040 = 0.121`
+This is consistent with the descriptive pattern in Analysis 02, where work-family conflict rose most steadily with WFH frequency among women with low schedule control.
 
-These two-way interactions correspond to parts of the descriptive pattern observed in Analysis 02. 
-Their interpretation, however, is conditional on the reference categories of the model.
-
-The three-way interaction is not statistically significant (`p = .17`). 
-The model therefore does not provide strong evidence that the gender difference in the WFH-conflict association itself varies by schedule control.
-
-The predicted-values plot shows the highest increase in conflict among women with low schedule control, 
-but this visual pattern should not be interpreted as a confirmed three-way interaction.
+The three-way interaction itself is not statistically significant (p = .21). 
+The model therefore does not provide strong evidence that the gender difference in the WFH-conflict slope differs between the two schedule-control groups, 
+even though the slope contrasts point in that direction.
 
 ## Results: WHO-5 wellbeing
 
@@ -84,88 +90,77 @@ WHO-5 wellbeing ranges from 0 (lowest wellbeing) to 100 (highest wellbeing).
 
 | Term | Estimate | t | approx. p |
 |---|---:|---:|---:|
-| WFH frequency, men with low schedule control | +0.88 | 2.59 | .010 |
-| Some schedule control, men who never WFH | +1.04 | 1.59 | .11 |
-| Female, low schedule control and never WFH | -2.03 | -4.32 | <.001 |
-| WFH × schedule control | -0.84 | -1.90 | .058 |
-| WFH × Female | -1.13 | -2.57 | .010 |
-| Schedule control × Female | -0.88 | -0.94 | .35 |
-| **WFH × schedule control × Female** | **+1.21** | **2.05** | **.041** |
+| WFH frequency, men with low schedule control | +0.48 | 1.31 | .19 |
+| Some schedule control, men who never WFH | +1.34 | 1.57 | .12 |
+| Female, low schedule control and never WFH | -2.08 | -4.38 | <.001 |
+| WFH × schedule control | -1.10 | -2.06 | .039 |
+| WFH × Female | -0.81 | -1.75 | .080 |
+| Schedule control × Female | -2.13 | -1.81 | .070 |
+| **WFH × schedule control × Female** | **+1.45** | **2.06** | **.039** |
 
-For men with low schedule control, more frequent working from home is associated with higher predicted wellbeing. 
-The estimated slope is +0.88 per one-category increase in WFH frequency.
+Simple slopes of WFH frequency (change in wellbeing per one-category increase in WFH frequency):
 
-Among women with low schedule control, the corresponding estimated slope is:
+| Group | Slope | SE | approx. p |
+|---|---:|---:|---:|
+| Men, low schedule control | +0.48 | 0.37 | .19 |
+| Men, some schedule control | -0.62 | 0.39 | .11 |
+| Women, low schedule control | -0.33 | 0.29 | .25 |
+| Women, some schedule control | +0.02 | 0.36 | .96 |
 
-`0.88 - 1.13 = -0.25`
+Women report lower wellbeing than men. Among employees with low schedule control who never work from home, the difference is about 2 points on the 0-100 scale.
 
-The predicted values therefore move in opposite directions for men and women in the low-schedule-control group: 
-predicted wellbeing increases with WFH frequency for men and decreases slightly for women.
+None of the four WFH slopes differs significantly from zero. 
+The three-way interaction is statistically significant at the 5% level (p = .039), 
+but it mainly reflects a difference among men: the WFH slope is slightly positive for men with low schedule control and slightly negative for men with some schedule control 
+(difference -1.10, p = .039). Among women, the slopes for the two schedule-control groups do not differ (difference +0.35, p = .45).
 
-For men with some schedule control, the estimated WFH slope is approximately:
-
-`0.88 - 0.84 = 0.04`
-
-For women with some schedule control, it is approximately:
-
-`0.88 - 0.84 - 1.13 + 1.21 = 0.12`
-
-Both are close to flat.
-
-The three-way interaction is statistically significant at the conventional 5% level (`p = .041`). 
-This indicates that the gender difference in the association between WFH frequency and wellbeing varies by schedule-control group.
-
-This result should still be treated cautiously. A significant three-way interaction does not by itself establish that each simple slope differs significantly from zero. 
-The predicted patterns are useful for describing the interaction, but formal simple-slope or contrast tests would be needed to make stronger claims about the individual slopes.
-
-The result is also based on one exploratory model specification, is unweighted, and has not been adjusted for multiple testing across the two outcome models.
+Taken together, the wellbeing model does not show a clear association between WFH frequency and wellbeing in any group. 
+The significant three-way interaction should be read cautiously: it rests on small slopes that are individually indistinguishable from zero, 
+comes from one exploratory specification, and is not adjusted for multiple testing across the two outcome models.
 
 ## Comparing the two outcomes
 
-The two outcomes do not show the same interaction pattern.
+The two outcomes do not show the same pattern.
 
-For work-family conflict, the descriptive pattern from Analysis 02 is partly reflected in the model, 
-but the WFH × schedule control × gender interaction is not statistically significant.
+For work-family conflict, more frequent working from home is consistently associated with higher conflict, 
+and most strongly among women with low schedule control. The three-way interaction is not significant, 
+but the slope contrasts support the descriptive pattern from Analysis 02.
 
-For wellbeing, the three-way interaction is statistically significant. 
-Predicted wellbeing rises with WFH frequency for men with low schedule control and declines slightly for women in the same schedule-control group, 
-while the corresponding slopes are close to flat among respondents with some schedule control.
+For wellbeing, WFH frequency shows no clear association in any group, and the significant three-way interaction is driven by small, 
+opposite-signed slopes among men.
 
-This difference suggests that work-family conflict and general wellbeing should not be treated as interchangeable outcomes. 
+This suggests that work-family conflict and general wellbeing should not be treated as interchangeable outcomes. 
 The present analysis does not identify the mechanisms behind the different patterns.
 
 ## Predicted-values plots
 
-Two figures are generated:
+![Predicted work-family conflict by WFH frequency, schedule control and gender](../Output/03_predicted_wfc_by_wfh_sc_gender.png)
 
-- `Output/03_predicted_wfc_by_wfh_access_gender.png`
-- `Output/03_predicted_wellbeing_by_wfh_access_gender.png`
+![Predicted WHO-5 wellbeing by WFH frequency, schedule control and gender](../Output/03_predicted_wellbeing_by_wfh_sc_gender.png)
 
-The work-family conflict plot shows a steeper predicted increase among women with low schedule control, 
-but the corresponding three-way interaction is not statistically significant.
+The work-family conflict plot shows rising predicted conflict in all four groups, with the steepest increase among women with low schedule control.
 
-The wellbeing plot shows different WFH slopes by gender among respondents with low schedule control, 
-while the slopes are much closer to flat among respondents with some schedule control.
+The wellbeing plot shows wide, overlapping confidence bands, consistent with the absence of clear WFH slopes in any group.
 
-## Take-aways
+## Summary
 
-- More frequent working from home is associated with higher work-family conflict among men with low schedule control, 
-and this association is steeper among women in the same schedule-control group.
+- Among employed parents, more frequent working from home is associated with higher work-family conflict for both women and men, 
+regardless of schedule control.
 
-- Schedule control is associated with a flatter WFH-conflict slope among men, 
-but the three-way interaction with gender is not statistically significant.
+- The association is strongest for women with low schedule control. Their slope is steeper than that of men with low schedule control 
+and of women with some schedule control, although the formal three-way interaction is not significant.
 
-- For wellbeing, the WFH × schedule control × gender interaction is statistically significant. 
-Predicted wellbeing patterns differ by gender under low schedule control, while WFH slopes are close to flat under some schedule control.
+- For wellbeing, there is no clear association with WFH frequency in any group. The significant three-way interaction rests on small slopes among men 
+and should be interpreted with caution.
 
-- The work-family conflict and wellbeing models therefore show different patterns rather than providing two versions of the same result.
+- The work-family conflict and wellbeing models therefore show different patterns rather than two versions of the same result.
 
-- These are exploratory associations. Selection into working from home remains unaddressed, the models are unweighted, 
-and stronger interpretation would require additional model checks and formal tests of relevant simple slopes and contrasts.
+- These are exploratory associations. Selection into working from home is not addressed and the models are unweighted. 
+Stronger interpretation would require additional controls (e.g. occupation, working hours) and robustness checks.
 
 ## Files
 
-- `R/03_multilevel_model.R` contains the model estimation and predicted-values calculations.
-- `Notes/03_multilevel_results.html` contains the knitted analysis output.
-- `Output/03_predicted_wfc_by_wfh_access_gender.png` contains predicted work-family conflict.
-- `Output/03_predicted_wellbeing_by_wfh_access_gender.png` contains predicted WHO-5 wellbeing.
+- `R/03_multilevel_model.R`: model estimation, simple slopes, and predicted values
+- `Output/03_multilevel_model_summaries.txt`: full model summaries, simple slopes and contrasts
+- `Output/03_predicted_wfc_by_wfh_sc_gender.png`: predicted work-family conflict
+- `Output/03_predicted_wellbeing_by_wfh_sc_gender.png`: predicted WHO-5 wellbeing

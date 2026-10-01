@@ -1,82 +1,104 @@
-MODEL 1: Work-family conflict ~ WFH freq * Access * Gender + (1|country)
-Sample: parents only, n = 12304 
+MODEL 1: Work-family conflict ~ WFH frequency * schedule control * gender + (1 | country)
+Sample: employed parents, n = 10490 
 
 Linear mixed model fit by REML ['lmerMod']
-Formula: wfc ~ wfh_freq_c * access * gender + (1 | country)
+Formula: wfc ~ wfh_freq_c * schedule_control * gender + (1 | country)
    Data: parents
 
-REML criterion at convergence: 27907.1
+REML criterion at convergence: 23578.7
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.7658 -0.6906  0.0068  0.6374  3.8517 
+-2.7008 -0.6889  0.0114  0.6466  3.8663 
 
 Random effects:
  Groups   Name        Variance Std.Dev.
- country  (Intercept) 0.05306  0.2303  
- Residual             0.55808  0.7471  
-Number of obs: 12304, groups:  country, 35
+ country  (Intercept) 0.05004  0.2237  
+ Residual             0.54599  0.7389  
+Number of obs: 10490, groups:  country, 35
 
 Fixed effects:
-                                   Estimate Std. Error t value
-(Intercept)                         2.37803    0.04143  57.404
-wfh_freq_c                          0.08090    0.01370   5.904
-accessHigh                          0.12121    0.02638   4.595
-genderFemale                        0.06336    0.01891   3.352
-wfh_freq_c:accessHigh              -0.05846    0.01772  -3.299
-wfh_freq_c:genderFemale             0.03953    0.01758   2.249
-accessHigh:genderFemale            -0.03982    0.03784  -1.052
-wfh_freq_c:accessHigh:genderFemale -0.03255    0.02366  -1.376
+                                             Estimate Std. Error t value
+(Intercept)                                   2.37544    0.04041  58.780
+wfh_freq_c                                    0.07283    0.01464   4.975
+schedule_controlHigh                         -0.05243    0.03414  -1.536
+genderFemale                                  0.07042    0.01893   3.721
+wfh_freq_c:schedule_controlHigh              -0.01542    0.02119  -0.728
+wfh_freq_c:genderFemale                       0.04259    0.01841   2.314
+schedule_controlHigh:genderFemale             0.02832    0.04668   0.607
+wfh_freq_c:schedule_controlHigh:genderFemale -0.03466    0.02788  -1.243
 
 Correlation of Fixed Effects:
-            (Intr) wfh_f_ accssH gndrFm wf__:H wf__:F accH:F
-wfh_freq_c  -0.132                                          
-accessHigh  -0.182  0.206                                   
-genderFemal -0.248  0.283  0.386                            
-wfh_frq_c:H  0.099 -0.763 -0.542 -0.220                     
-wfh_frq_c:F  0.102 -0.771 -0.158 -0.406  0.594              
-accssHgh:gF  0.122 -0.140 -0.679 -0.497  0.381  0.204       
-wfh_fr_:H:F -0.074  0.569  0.404  0.302 -0.746 -0.742 -0.579
+            (Intr) wfh_f_ schd_H gndrFm wf__:_H wf__:F sc_H:F
+wfh_freq_c  -0.134                                           
+schdl_cntrH -0.152  0.164                                    
+genderFemal -0.257  0.279  0.301                             
+wfh_frq_:_H  0.089 -0.684 -0.599 -0.193                      
+wfh_frq_c:F  0.105 -0.788 -0.123 -0.398  0.543               
+schdl_cnH:F  0.104 -0.112 -0.701 -0.404  0.440   0.162       
+wfh_f_:_H:F -0.069  0.518  0.456  0.263 -0.757  -0.660 -0.636
+
+Simple slopes of WFH frequency and contrasts:
+                                        estimate    se     z     p
+Slope: men, low schedule control           0.073 0.015  4.97 0.000
+Slope: men, some schedule control          0.057 0.015  3.72 0.000
+Slope: women, low schedule control         0.115 0.011 10.18 0.000
+Slope: women, some schedule control        0.065 0.014  4.56 0.000
+Difference: men, some vs. low control     -0.015 0.021 -0.73 0.467
+Difference: women, some vs. low control   -0.050 0.018 -2.75 0.006
+Difference: low control, women vs. men     0.043 0.018  2.31 0.021
+Difference: some control, women vs. men    0.008 0.021  0.38 0.705
 
 
 =====================================================
 
-MODEL 2: WHO-5 wellbeing ~ WFH freq * Access * Gender + (1|country)
-Sample: parents only, n = 12581 
+MODEL 2: WHO-5 wellbeing ~ WFH frequency * schedule control * gender + (1 | country)
+Sample: employed parents, n = 10696 
 
 Linear mixed model fit by REML ['lmerMod']
-Formula: wellbeing ~ wfh_freq_c * access * gender + (1 | country)
+Formula: wellbeing ~ wfh_freq_c * schedule_control * gender + (1 | country)
    Data: parents
 
-REML criterion at convergence: 109602.8
+REML criterion at convergence: 93221.1
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.9915 -0.5814  0.1451  0.6751  2.1423 
+-3.9415 -0.5718  0.1442  0.6712  2.1933 
 
 Random effects:
  Groups   Name        Variance Std.Dev.
- country  (Intercept)  13.86    3.723  
- Residual             353.19   18.793  
-Number of obs: 12581, groups:  country, 35
+ country  (Intercept)  13.93    3.733  
+ Residual             354.33   18.824  
+Number of obs: 10696, groups:  country, 35
 
 Fixed effects:
-                                   Estimate Std. Error t value
-(Intercept)                         69.8923     0.7199  97.087
-wfh_freq_c                           0.8821     0.3407   2.589
-accessHigh                           1.0371     0.6515   1.592
-genderFemale                        -2.0269     0.4691  -4.320
-wfh_freq_c:accessHigh               -0.8358     0.4403  -1.898
-wfh_freq_c:genderFemale             -1.1278     0.4389  -2.569
-accessHigh:genderFemale             -0.8816     0.9391  -0.939
-wfh_freq_c:accessHigh:genderFemale   1.2067     0.5891   2.048
+                                             Estimate Std. Error t value
+(Intercept)                                   70.0829     0.7249  96.679
+wfh_freq_c                                     0.4830     0.3681   1.312
+schedule_controlHigh                           1.3442     0.8591   1.565
+genderFemale                                  -2.0806     0.4755  -4.375
+wfh_freq_c:schedule_controlHigh               -1.1034     0.5349  -2.063
+wfh_freq_c:genderFemale                       -0.8142     0.4649  -1.751
+schedule_controlHigh:genderFemale             -2.1324     1.1769  -1.812
+wfh_freq_c:schedule_controlHigh:genderFemale   1.4518     0.7048   2.060
 
 Correlation of Fixed Effects:
-            (Intr) wfh_f_ accssH gndrFm wf__:H wf__:F accH:F
-wfh_freq_c  -0.187                                          
-accessHigh  -0.259  0.205                                   
-genderFemal -0.352  0.281  0.386                            
-wfh_frq_c:H  0.140 -0.764 -0.540 -0.219                     
-wfh_frq_c:F  0.144 -0.769 -0.157 -0.404  0.593              
-accssHgh:gF  0.172 -0.139 -0.677 -0.497  0.377  0.203       
-wfh_fr_:H:F -0.105  0.568  0.401  0.302 -0.744 -0.744 -0.576
+            (Intr) wfh_f_ schd_H gndrFm wf__:_H wf__:F sc_H:F
+wfh_freq_c  -0.186                                           
+schdl_cntrH -0.210  0.162                                    
+genderFemal -0.357  0.277  0.299                             
+wfh_frq_:_H  0.122 -0.682 -0.599 -0.190                      
+wfh_frq_c:F  0.145 -0.785 -0.121 -0.396  0.539               
+schdl_cnH:F  0.144 -0.111 -0.702 -0.403  0.440   0.160       
+wfh_f_:_H:F -0.095  0.516  0.456  0.262 -0.756  -0.659 -0.635
+
+Simple slopes of WFH frequency and contrasts:
+                                        estimate    se     z     p
+Slope: men, low schedule control           0.483 0.368  1.31 0.189
+Slope: men, some schedule control         -0.620 0.391 -1.59 0.113
+Slope: women, low schedule control        -0.331 0.288 -1.15 0.251
+Slope: women, some schedule control        0.017 0.362  0.05 0.962
+Difference: men, some vs. low control     -1.103 0.535 -2.06 0.039
+Difference: women, some vs. low control    0.348 0.461  0.76 0.450
+Difference: low control, women vs. men    -0.814 0.465 -1.75 0.080
+Difference: some control, women vs. men    0.638 0.530  1.20 0.229

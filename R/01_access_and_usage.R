@@ -1,5 +1,5 @@
-# EWCS 2024 — availability / accessibility / uptake of
-# flexible working, by gender and caregiving status
+# EWCS 2024: schedule control, ease of taking time off and working from
+# home, by gender and presence of children
 
 library(haven)
 library(labelled)
@@ -19,21 +19,29 @@ ewcs_raw <- read_sav(
 
 # 2. Construct variables
 #
-# ACCESS (schedule control): wt_arrangements, "How are your working time arrangements
-# set?" 1 = fixed by employer, no possibility for change;
-# 2 = choose among employer-set fixed schedules; 3 = adapt hours
-# within limits (e.g. flexitime); 4 = entirely self-determined.
-# Coded here as "has some control over own schedule" (3 or 4) vs. not (1 or 2).
+# SCHEDULE CONTROL (proxy for access to time flexibility):
+# wt_arrangements, q44 "How are your working time arrangements set?"
+# 1 = set by the organisation, no possibility for change;
+# 2 = choose between several fixed schedules set by the organisation;
+# 3 = adapt hours within certain limits (e.g. flexitime);
+# 4 = entirely determined by yourself.
+# Coded as "some control" (3 or 4) vs. not (1 or 2).
 #
-# ACCESS (short-notice time off): able_hour_off, "How easy
-# or difficult is it to arrange to take an hour or two off
-# during working hours for personal or family matters?"
-# 1 = very easy … 4 = very difficult. Coded as "easy" (1 or 2).
+# PERCEIVED ACCESSIBILITY (ad hoc time off): able_hour_off, q52
+# "How easy or difficult is it for you to arrange to take an hour or two
+# off during working hours to attend to personal or family matters?"
+# 1 = very easy, 2 = fairly easy, 3 = fairly difficult, 4 = very difficult.
 #
-# USAGE: loc_home, q29_d "How often have you worked from
-# home in your main job?" 1 = always … 5 = never. 
+# WFH USAGE (place flexibility): loc_home, q29_d "How often have you
+# worked in your own home in your main job?"
+# 1 = always, 2 = often, 3 = sometimes, 4 = rarely, 5 = never.
+#
+# SAMPLE: employees only (employee_selfdeclared == 1). Self-employed
+# respondents are excluded because employer-provided flexibility does
+# not apply to them.
 
 ewcs <- ewcs_raw %>%
+  filter(employee_selfdeclared == 1) %>%
   mutate(
     ff_schedule_control = wt_arrangements %in% c(3, 4),
     ff_easy_time_off = able_hour_off %in% c(1, 2),
@@ -44,12 +52,8 @@ ewcs <- ewcs_raw %>%
     weight = calweight
   )
 
-cat("N respondents:", nrow(ewcs), "\n")
-cat("N with valid gender:", sum(!is.na(ewcs$gender)), "\n")
-cat("Gender x children cross-tab (unweighted N):\n")
-print(table(ewcs$gender, ewcs$has_children, useNA = "ifany"))
 
-# 3. Descriptive deliverable: access (x2) / usage by gender x caregiving status (design-weighted)
+# 3. Weighted percentages by gender x presence of children
 
 summarise_by_group <- function(data, var, var_name) {
   data %>%
@@ -63,46 +67,70 @@ summarise_by_group <- function(data, var, var_name) {
     mutate(measure = var_name)
 }
 
+labels <- c(
+  "Schedule control\n(wt_arrangements)",
+  "Ease of taking time off\n(able_hour_off)",
+  "Works from home\n(loc_home)"
+)
+
 results <- bind_rows(
-  summarise_by_group(ewcs, "ff_schedule_control", "Access: schedule control\n(wt_arrangements)"),
-  summarise_by_group(ewcs, "ff_easy_time_off", "Access: ease of time off\n(able_hour_off)"),
-  summarise_by_group(ewcs, "ff_wfh_usage", "Usage: works from home\n(loc_home)")
+  summarise_by_group(ewcs, "ff_schedule_control", labels[1]),
+  summarise_by_group(ewcs, "ff_easy_time_off",    labels[2]),
+  summarise_by_group(ewcs, "ff_wfh_usage",        labels[3])
 )
 
 print(results)
-write.csv(results, "Output/01_access_usage_by_gender_children.csv", row.names = FALSE)
+write.csv(results, "Output/01_flexibility_by_gender_children.csv", row.names = FALSE)
 
 # 4. Plot
 
-results <- results %>%
+plot_df <- results %>%
   mutate(
-    measure = factor(measure, levels = c(
-      "Access: schedule control\n(wt_arrangements)",
-      "Access: ease of time off\n(able_hour_off)",
-      "Usage: works from home\n(loc_home)"
-    )),
-    group = paste(gender, ifelse(has_children, "with children", "no children"))
+    measure = factor(measure, levels = labels),
+    children = factor(
+      ifelse(has_children, "With children", "No children"),
+      levels = c("No children", "With children")
+    ),
+    gender = factor(gender, levels = c("Female", "Male"))
   )
 
-p <- ggplot(results, aes(x = group, y = pct, fill = gender)) +
-  geom_col(width = 0.65) +
+p <- ggplot(plot_df, aes(x = children, y = pct, fill = gender)) +
+  geom_col(position = position_dodge(width = 0.75), width = 0.7) +
+  geom_text(
+    aes(label = sprintf("%.0f%%", pct)),
+    position = position_dodge(width = 0.75),
+    vjust = -0.4, size = 3.2
+  ) +
   facet_wrap(~measure, nrow = 1) +
+  scale_fill_manual(values = c(Female = "#C0504D", Male = "#4F81BD")) +
+  scale_y_continuous(
+    labels = label_percent(scale = 1),
+    limits = c(0, 100),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
   labs(
-    title = "Perceived access and actual usage of workplace flexibility,\nby gender and caregiving status",
-    subtitle = "European Working Conditions Survey 2024 (n = 36,644, 35 countries) — design-weighted",
-    x = NULL, y = "%",
+    title = "Schedule control, ease of taking time off and working from home,\nby gender and presence of children",
+    subtitle = paste0(
+      "European Working Conditions Survey 2024, employees (n = ",
+      format(nrow(ewcs), big.mark = ","), ", 35 countries), weighted"
+    ),
+    x = NULL, y = NULL, fill = NULL,
     caption = paste0(
       "Source: Eurofound EWCS 2024 via UK Data Service (SN 9511). Weighted using calweight.\n",
-      "EWCS surveys employees only (single-actor design) — all measures are employee-perceived access,\n",
-      "not formal organisational availability. No organisation/team nesting (unlike the ESWS)."
+      "Measures are self-reported. EWCS has no employer or HR respondent, so formal organisational provision is not observed."
     )
   ) +
-  scale_y_continuous(labels = label_percent(scale = 1), limits = c(0, 100)) +
   theme_minimal(base_size = 11) +
   theme(
-    axis.text.x = element_text(angle = 30, hjust = 1),
-    legend.position = "none",
-    strip.text = element_text(face = "bold")
+    legend.position = "top",
+    legend.justification = "left",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    strip.text = element_text(face = "bold"),
+    plot.caption = element_text(hjust = 0, colour = "grey40"),
+    plot.title.position = "plot",
+    plot.caption.position = "plot"
   )
 
-ggsave("Output/01_access_usage_by_gender_children.png", p, width = 10, height = 5.7, dpi = 300, bg = "white")
+ggsave("Output/01_flexibility_by_gender_children.png", p,
+       width = 10, height = 5.7, dpi = 300, bg = "white")
